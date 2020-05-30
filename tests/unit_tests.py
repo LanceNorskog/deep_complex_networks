@@ -15,6 +15,7 @@ class TestDNCMethods(unittest.TestCase):
 
     def test_outputs_forward(self):
         """Test computed shape of forward convolution output"""
+        print('test_outputs_forward')
         layer = conn.ComplexConv2D(
             filters=4,
             kernel_size=3,
@@ -28,6 +29,7 @@ class TestDNCMethods(unittest.TestCase):
 
     def test_outputs_transpose(self):
         """Test computed shape of transposed convolution output"""
+        print('test_outputs_transpose')
         layer = conn.ComplexConv2D(
             filters=2,
             kernel_size=3,
@@ -41,6 +43,7 @@ class TestDNCMethods(unittest.TestCase):
 
     def test_conv2Dforward(self):
         """Test shape of model output, forward"""
+        print('test_conv2Dforward')
         inputs = Input(shape=(128, 128, 2))
         outputs = conn.ComplexConv2D(
             filters=4,
@@ -49,12 +52,14 @@ class TestDNCMethods(unittest.TestCase):
             padding="same",
             transposed=False)(inputs)
         model = Model(inputs=inputs, outputs=outputs)
+        model.summary()
         true = (None, 64, 64, 8)
         calc = model.output_shape
         assert true == calc
 
     def test_conv2Dtranspose(self):
         """Test shape of model output, transposed"""
+        print('test_conv2Dtranspose')
         inputs = Input(shape=(64, 64, 20))  # = 10 CDN filters
         outputs = conn.ComplexConv2D(
             filters=2,  # = 4 Keras filters
@@ -63,12 +68,14 @@ class TestDNCMethods(unittest.TestCase):
             padding="same",
             transposed=True)(inputs)
         model = Model(inputs=inputs, outputs=outputs)
+        model.summary()
         true = (None, 128, 128, 4)
         calc = model.output_shape
         assert true == calc
 
     def test_train_transpose(self):
         """Train using Conv2DTranspose"""
+        print('test_train_transpose')
         x = np.random.randn(64 * 64).reshape((64, 64))
         y = np.random.randn(64 * 64).reshape((64, 64))
         X = np.stack((x, y), -1)
@@ -92,7 +99,9 @@ class TestDNCMethods(unittest.TestCase):
             optimizer='adam',
             loss='mean_squared_error',
             metrics=['accuracy'])
-        model.fit(X, Y, batch_size=1, epochs=10)
+        model.summary()
+        h = model.fit(X, Y, batch_size=1, epochs=10)
+        print(h.history)
 
     # def test_later():
         # tf.reset_default_graph()
@@ -101,3 +110,5 @@ class TestDNCMethods(unittest.TestCase):
         # tf_answer = np.array(sess.run())
 
 
+if __name__ == '__main__':
+    unittest.main()
