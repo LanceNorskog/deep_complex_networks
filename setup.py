@@ -7,7 +7,7 @@ with open('README.md') as f:
 
 setup(
     name='keras-complex',
-    version='0.1.4',
+    version='0.1.3',
     description='Complex values in Keras - Deep learning for humans',
     license='MIT',
     long_description=DESCRIPTION,
@@ -16,9 +16,10 @@ setup(
     packages=find_packages(),
     scripts=['scripts/run.py', 'scripts/training.py'],
     install_requires=[
-        "numpy", "scipy", "sklearn"],
+        "numpy", "scipy", "sklearn", "keras"],
     extras_require={
-        "tf": ["tensorflow"]
+        "tf": ["tensorflow"],
+        "tf_gpu": ["tensorflow-gpu"],
     },
     classifiers=[
           'Development Status :: 3 - Alpha',
