@@ -388,6 +388,8 @@ class ComplexBatchNormalization(Layer):
             self.moving_mean = None
 
         self.built = True
+        super(ComplexBatchNormalization, self).build(input_shape)
+
 
     def call(self, inputs, training=None):
         input_shape = K.int_shape(inputs)
